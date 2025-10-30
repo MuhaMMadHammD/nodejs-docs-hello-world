@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-hello
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodejs-hello
+  template:
+    metadata:
+      labels:
+        app: nodejs-hello
+    spec:
+      containers:
+        - name: nodejs-hello
+          image: azurepocregistry.azurecr.io/muhammadhammd/nodejs-docs-hello-world:9
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-hello-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: nodejs-hello
+  ports:
+    - port: 80
+      targetPort: 8080
